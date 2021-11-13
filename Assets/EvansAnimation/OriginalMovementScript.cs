@@ -7,18 +7,36 @@ public class OriginalMovementScript : MonoBehaviour
     bool grounded = false;
     Rigidbody2D rb2;
     SpriteRenderer sr;
+    Animator a;
 
     // Start is called before the first frame update
     void Start()
     {
         rb2 = gameObject.GetComponent<Rigidbody2D>();
         sr = gameObject.GetComponent<SpriteRenderer>();
+        a = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
+
+        a.SetFloat("yVelocity", rb2.velocity.y);
+        a.SetBool("Grounded", grounded);
+
         float horizValue = Input.GetAxis("Horizontal");
+
+        if (horizValue == 0)
+        {
+            a.SetBool("Moving", false);
+        }
+        else
+        {
+            a.SetBool("Moving", true);
+        }
+
         rb2.velocity = new Vector2(horizValue * 15, rb2.velocity.y);
 
         if (horizValue > 0)
